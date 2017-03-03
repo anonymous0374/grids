@@ -1,0 +1,28 @@
+.onex-grids {
+	width: 100%;
+	height: 100%;
+	display: block;
+	clear: both;
+	background-color: transparent;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.onex-grid {
+    width: 15.66%;
+    min-height: 150px;
+    background-color: transparent;
+    border: solid 1px #dddddd;
+}
+
+.button-normal {
+    background-color: blue;
+}
+
+.button-median {
+    background-color: green;
+}
+
+.button-large {
+    background-color: red;
+}

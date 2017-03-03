@@ -1,0 +1,8 @@
+<div class='onex-grids'>
+    <div [ngClass]=grid.gridClass  class="onex-grid" *ngFor='let grid of grids; let i = index;'>
+        <input type='button' value='delete' *ngIf="grid.hasCard()" (click)="removeCard(grid)" style='border: solid 1px #dddddd; width: 100%; height: 100px;' [ngClass]='{"button-normal": getCard(grid) && getCard(grid).type === 0, "button-median": getCard(grid) && getCard(grid).type === 1, "button-large": getCard(grid) && getCard(grid).type === 2}'/>
+        <span [id]="getCard(grid) && getCard(grid).index" class='card-text' draggable='true' *ngIf="grid.hasCard()">
+            card index: {{getCard(grid) && getCard(grid).index}}
+        </span>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<h1>
+  {{title}}
+</h1>
+
+<app-grids [grids]="grids" [cards]="cards"></app-grids>
+<div>
+	<div style='position: relative; left: 50%; transform: translateX(-50%); margin-bottom: 10px; width: 250px;'><input type='button' value='Add normal card' (click)="addNormal()" style='width: 200px; height: 40px; border: solid 1px #dddddd' /></div>
+	<div style='position: relative; left: 50%; transform: translateX(-50%); margin-bottom: 10px; width: 250px; '><input type='button' value='Add midian card' (click)="addMedian()" style='width: 200px; height: 40px; border: solid 1px #dddddd' /></div>
+	<div style='position: relative; left: 50%; transform: translateX(-50%); margin-bottom: 10px; width: 250px;'><input type='button' value='Add large card' (click)="addLarge()" style='width: 200px; height: 40px; border: solid 1px #dddddd' /></div>
+    <div style='position: relative; left: 50%; transform: translateX(-50%); margin-bottom: 10px; width: 250px;'><input type='button' value='Reload' (click)="(reload())" style='width: 200px; height: 40px; border: solid 1px #dddddd' /></div>    
+</div>
