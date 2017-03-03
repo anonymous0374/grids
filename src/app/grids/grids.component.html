@@ -1,8 +1,17 @@
 <div class='onex-grids'>
-    <div [ngClass]=grid.gridClass  class="onex-grid" *ngFor='let grid of grids; let i = index;'>
-        <input type='button' value='delete' *ngIf="grid.hasCard()" (click)="removeCard(grid)" style='border: solid 1px #dddddd; width: 100%; height: 100px;' [ngClass]='{"button-normal": getCard(grid) && getCard(grid).type === 0, "button-median": getCard(grid) && getCard(grid).type === 1, "button-large": getCard(grid) && getCard(grid).type === 2}'/>
+    <div [ngClass]=grid.gridClass class="onex-grid" *ngFor='let grid of ls.grids; let i = index;'>
+        <input type='button' value='delete' class='grid-button' *ngIf="grid.hasCard()" (click)="removeCard(grid)"  [ngClass]='{"button-normal": getCard(grid) && getCard(grid).type === 0, "button-median": getCard(grid) && getCard(grid).type === 1, "button-large": getCard(grid) && getCard(grid).type === 2}'/>
+        <input type='button' value='enlarge' class='grid-button' *ngIf="grid.hasCard()" (click)="enlargeCard(grid)" [ngClass]='{"button-normal": getCard(grid) && getCard(grid).type === 0, "button-median": getCard(grid) && getCard(grid).type === 1, "button-large": getCard(grid) && getCard(grid).type === 2}' />
+        <input type='button' value='reduce' class='grid-button' *ngIf="grid.hasCard()" (click)="reduceCard(grid)" [ngClass]='{"button-normal": getCard(grid) && getCard(grid).type === 0, "button-median": getCard(grid) && getCard(grid).type === 1, "button-large": getCard(grid) && getCard(grid).type === 2}' />
         <span [id]="getCard(grid) && getCard(grid).index" class='card-text' draggable='true' *ngIf="grid.hasCard()">
             card index: {{getCard(grid) && getCard(grid).index}}
         </span>
     </div>
+</div>
+
+<div style='margin-top: 20px;'>
+    <div style='position: relative; left: 50%; transform: translateX(-50%); margin-bottom: 10px; width: 250px;'><input type='button' value='Add normal card' (click)="addNormal()" style='width: 200px; height: 40px; border: solid 1px #dddddd' /></div>
+    <div style='position: relative; left: 50%; transform: translateX(-50%); margin-bottom: 10px; width: 250px; '><input type='button' value='Add midian card' (click)="addMedian()" style='width: 200px; height: 40px; border: solid 1px #dddddd' /></div>
+    <div style='position: relative; left: 50%; transform: translateX(-50%); margin-bottom: 10px; width: 250px;'><input type='button' value='Add large card' (click)="addLarge()" style='width: 200px; height: 40px; border: solid 1px #dddddd' /></div>
+    <div style='position: relative; left: 50%; transform: translateX(-50%); margin-bottom: 10px; width: 250px;'><input type='button' value='Reload' (click)="(reloadCards())" style='width: 200px; height: 40px; border: solid 1px #dddddd' /></div>    
 </div>

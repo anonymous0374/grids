@@ -10,38 +10,94 @@ import { LayoutService } from '../service/layout.service';
     styleUrls: ['./grids.component.css']
 })
 export class GridsComponent implements OnInit {
-    @Input()
-    public cards: Card[];
-    @Input()
-    public grids: Grid[];
-
-    constructor(public layoutService: LayoutService) { }
+    constructor(public ls: LayoutService) { 
+      
+    }
 
     ngOnInit() {
   	    
     }    
 
     public removeCard(grid: Grid) {        
-        this.cards.forEach((card, i) => {
+        this.ls.cards.forEach((card, i) => {
             if (card.index === grid.cardIndex) {
-                this.cards.splice(i, 1);
+                this.ls.cards.splice(i, 1);
             }
         });
         
-        this.layoutService.unOccupyGrids();
-        this.layoutService.reloadCards(this.cards);
+        this.ls.unOccupyGrids();
+        this.ls.reloadCards();
 
         console.log('grid: ' + grid.gridIndex + ' removed!');
     }
 
     public getCard(grid: Grid): Card {
-      for (var i = 0; i < this.cards.length; i++) {
-          if (this.cards[i].index && this.cards[i].index === grid.cardIndex) {
-              return this.cards[i];
+      for (var i = 0; i < this.ls.cards.length; i++) {
+          if (this.ls.cards[i].index && this.ls.cards[i].index === grid.cardIndex) {
+              return this.ls.cards[i];
           }
       }
 
       return null;
+    }
+
+    addNormal() {
+        var card = new Card(0);
+        card.index = this.ls.cards.length > 0 ? this.ls.cards.length : 0;
+        this.ls.cards.push(card);
+
+        try {
+            this.ls.unOccupyGrids();
+            this.ls.reloadCards();
+        } catch (e) {
+            console.log(e);
+        }        
+    }
+
+    addMedian() {
+        var card = new Card(1);
+        card.index = this.ls.cards.length > 0 ? this.ls.cards.length : 0;
+        this.ls.cards.push(card);
+
+        try {
+            this.ls.unOccupyGrids();
+            this.ls.reloadCards();
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    addLarge() {
+        var card = new Card(2);
+        card.index = this.ls.cards.length > 0 ? this.ls.cards.length : 0;
+        this.ls.cards.push(card);
+        
+        try {
+            this.ls.unOccupyGrids();
+            this.ls.reloadCards(); 
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    enlargeCard(grid: Grid) {
+        var card = this.ls.getCard(grid);
+        card.type > 1 ? '' : card.type += 1;
+
+        this.ls.unOccupyGrids();
+        this.reloadCards();
+    }
+
+    reduceCard(grid: Grid) {
+        var card = this.ls.getCard(grid);
+        card.type < 1 ? '' : card.type -= 1;
+
+        this.ls.unOccupyGrids();
+        this.reloadCards();
+    }
+
+    reloadCards() {
+        this.ls.reloadCards();
     }
 
 }

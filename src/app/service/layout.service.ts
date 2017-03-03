@@ -1,12 +1,6 @@
-import {
-    Injectable
-} from '@angular/core';
-import {
-    Grid
-} from '../grids/grid';
-import {
-    Card
-} from '../card/card';
+import { Injectable } from '@angular/core';
+import { Grid } from '../grids/grid';
+import { Card } from '../card/card';
 
 @Injectable()
 export class LayoutService {
@@ -42,6 +36,8 @@ export class LayoutService {
             new Grid('grid22', false),
             new Grid('grid23', false)
         ];
+
+        this.cards = [];
     }
 
     public getNormalGrid(card: Card, currentGrid: Grid, doOccupy ? : boolean): Grid[] {
@@ -186,8 +182,8 @@ export class LayoutService {
     }
 
 
-    public reloadCards(cards): void {
-        cards.forEach(card => {
+    public reloadCards(): void {
+        this.cards.forEach(card => {
             if (card.type === 0) {
                 this.getNormalGridCompact(card, true);
             } else if (card.type === 1) {
@@ -195,20 +191,7 @@ export class LayoutService {
             } else if (card.type === 2) {
                 this.getLargeGridCompact(card, true);
             }
-
-
-        });
-
-        console.log('there are totally: ' + cards.length + ' cards.');
-        cards.forEach(card => {
-            console.log(card.className);
-        });
-        console.log('and these grids are occupied: ');
-        this.grids.forEach(grid => {
-            if (grid.occupied) {
-                console.log(grid.gridClass);
-            }
-        });
+        });        
     }
 
     public unOccupyGrids(): void {
@@ -216,5 +199,17 @@ export class LayoutService {
             grid.occupied = false;
             grid.cardIndex = -1;            
         });
+    }
+
+    public getCard(grid: Grid): Card {
+        var rtn = null;
+        this.cards.some(card => {
+            if (grid.cardIndex === card.index) {
+                rtn = card;
+                return true;
+            } 
+        });
+
+        return rtn;
     }
 }
