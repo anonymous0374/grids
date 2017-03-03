@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
 import { Card } from '../card/card';
-import { Grid } from './grid';
+import { Grid } from '../grids/grid';
 import { LayoutService } from '../service/layout.service';
 
 @Component({
-    selector: 'app-grids',
-    templateUrl: './grids.component.html',
-    styleUrls: ['./grids.component.css']
+    selector: 'app-grids-dnd',
+    templateUrl: './grids-dnd.component.html',
+    styleUrls: ['./grids-dnd.component.css']
 })
-export class GridsComponent implements OnInit {
+export class GridsDndComponent implements OnInit {
     constructor(public ls: LayoutService) { 
       
     }
 
     ngOnInit() {
-  	    
+          
     }    
 
     public removeCard(grid: Grid) {        

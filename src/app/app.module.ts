@@ -11,11 +11,13 @@ import { CardComponent } from './card/card.component';
 import { DndModule } from 'ng2-dnd';
 
 import { routes } from './routes/app.routes';
+import { GridsDndComponent } from './grids-dnd/grids-dnd.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CardComponent
+    CardComponent,
+    GridsDndComponent
   ],
   imports: [
     BrowserModule,
