@@ -212,4 +212,8 @@ export class LayoutService {
 
         return rtn;
     }
+
+    public hasCard(grid): boolean {
+        return grid.occupied;
+    }
 }

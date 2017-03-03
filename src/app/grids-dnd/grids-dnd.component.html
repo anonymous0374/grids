@@ -1,11 +1,13 @@
 <div class='onex-grids'>
-    <div [ngClass]=grid.gridClass class="onex-grid" *ngFor='let grid of ls.grids; let i = index;'>
-        <input type='button' value='delete' class='grid-button' *ngIf="grid.hasCard()" (click)="removeCard(grid)"  [ngClass]='{"button-normal": getCard(grid) && getCard(grid).type === 0, "button-median": getCard(grid) && getCard(grid).type === 1, "button-large": getCard(grid) && getCard(grid).type === 2}'/>
-        <input type='button' value='enlarge' class='grid-button' *ngIf="grid.hasCard()" (click)="enlargeCard(grid)" [ngClass]='{"button-normal": getCard(grid) && getCard(grid).type === 0, "button-median": getCard(grid) && getCard(grid).type === 1, "button-large": getCard(grid) && getCard(grid).type === 2}' />
-        <input type='button' value='reduce' class='grid-button' *ngIf="grid.hasCard()" (click)="reduceCard(grid)" [ngClass]='{"button-normal": getCard(grid) && getCard(grid).type === 0, "button-median": getCard(grid) && getCard(grid).type === 1, "button-large": getCard(grid) && getCard(grid).type === 2}' />
-        <span [id]="getCard(grid) && getCard(grid).index" class='card-text' draggable='true' *ngIf="grid.hasCard()">
-            card index: {{getCard(grid) && getCard(grid).index}}
-        </span>
+    <div style='background-color: #cccccc' [ngClass]="grid.gridClass" class="onex-grid" *ngFor="let grid of ls.grids; let i = index;">
+        <div *ngIf="grid.hasCard()">
+            <input type='button' value='Delete' class='grid-button' (click)="removeCard(grid)"  [ngClass]='{"button-normal": ls.getCard(grid).type === 0, "button-median": ls.getCard(grid).type === 1, "button-large": ls.getCard(grid).type === 2}'/>
+            <input type='button' value='Enlarge' class='grid-button'(click)="enlargeCard(grid)" [ngClass]='{"button-normal": ls.getCard(grid).type === 0, "button-median": ls.getCard(grid).type === 1, "button-large": ls.getCard(grid).type === 2}'/>
+            <input type='button' value='Reduce' class='grid-button' (click)="reduceCard(grid)" [ngClass]='{"button-normal": ls.getCard(grid).type === 0, "button-median": ls.getCard(grid).type === 1, "button-large": ls.getCard(grid).type === 2}'/>
+            <span [id]="ls.getCard(grid).index" class='card-text' draggable='true' *ngIf="grid.hasCard()">
+                card index: {{ls.getCard(grid).index}}
+            </span>
+        </div>
     </div>
 </div>
 
