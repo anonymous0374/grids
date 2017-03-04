@@ -6,3 +6,9 @@
     transform: translateY(-50%);
     text-align: center;
 }
+
+nav>ul>li {
+	display: inline;
+	margin: 0 5px;
+	width: 100px;
+}

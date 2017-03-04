@@ -12,17 +12,19 @@ import { DndModule } from 'ng2-dnd';
 
 import { routes } from './routes/app.routes';
 import { GridsDndComponent } from './grids-dnd/grids-dnd.component';
+import { DragAndDropComponent } from './drag-and-drop/drag-and-drop.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CardComponent,
-    GridsDndComponent
+    GridsDndComponent,    
+    DragAndDropComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
+    HttpModule, 
     GridsModule,
     RouterModule.forRoot(routes)
   ],
