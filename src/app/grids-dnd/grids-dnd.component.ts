@@ -18,7 +18,7 @@ export class GridsDndComponent implements OnInit {
           
     }    
 
-    public removeCard(grid: Grid) {        
+    public removeCard(grid: Grid): void {
         this.ls.cards.forEach((card, i) => {
             if (card.index === grid.cardIndex) {
                 this.ls.cards.splice(i, 1);
@@ -41,7 +41,7 @@ export class GridsDndComponent implements OnInit {
       return null;
     }
 
-    addNormal() {
+    addNormal(): void {
         var card = new Card(0);
         card.index = this.ls.cards.length > 0 ? this.ls.cards.length : 0;
         this.ls.cards.push(card);
@@ -54,7 +54,7 @@ export class GridsDndComponent implements OnInit {
         }        
     }
 
-    addMedian() {
+    addMedian(): void {
         var card = new Card(1);
         card.index = this.ls.cards.length > 0 ? this.ls.cards.length : 0;
         this.ls.cards.push(card);
@@ -67,7 +67,7 @@ export class GridsDndComponent implements OnInit {
         }
     }
 
-    addLarge() {
+    addLarge(): void {
         var card = new Card(2);
         card.index = this.ls.cards.length > 0 ? this.ls.cards.length : 0;
         this.ls.cards.push(card);
@@ -80,7 +80,7 @@ export class GridsDndComponent implements OnInit {
         }
     }
 
-    enlargeCard(grid: Grid) {
+    enlargeCard(grid: Grid): void {
         var card = this.ls.getCard(grid);
         card.type > 1 ? '' : card.type += 1;
 
@@ -88,7 +88,7 @@ export class GridsDndComponent implements OnInit {
         this.reloadCards();
     }
 
-    reduceCard(grid: Grid) {
+    reduceCard(grid: Grid): void {
         var card = this.ls.getCard(grid);
         card.type < 1 ? '' : card.type -= 1;
 
@@ -96,9 +96,13 @@ export class GridsDndComponent implements OnInit {
         this.reloadCards();
     }
 
-    reloadCards() {
+    reloadCards(): void {
         this.ls.unOccupyGrids();
         this.ls.reloadCards();
+    }
+
+    drop(e) {
+        console.log('ng2-dnd dropped!');
     }
 
 }

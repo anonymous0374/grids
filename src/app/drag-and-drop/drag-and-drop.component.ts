@@ -12,4 +12,8 @@ export class DragAndDropComponent implements OnInit {
   ngOnInit() {
   }
 
+  drop() {
+      console.log('ng2-dnd dropped!');
+  }
+
 }

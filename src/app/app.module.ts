@@ -5,30 +5,29 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { GridsModule } from './grids/grids.module';
 import { CardComponent } from './card/card.component';
 
-import { DndModule } from 'ng2-dnd';
+import { GridsModule } from './grids/grids.module';
+import { GridsDndModule } from './grids-dnd/grids-dnd.module';
+import { DragAndDropModule }  from './drag-and-drop/drag-and-drop.module';
 
 import { routes } from './routes/app.routes';
-import { GridsDndComponent } from './grids-dnd/grids-dnd.component';
-import { DragAndDropComponent } from './drag-and-drop/drag-and-drop.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CardComponent,
-    GridsDndComponent,    
-    DragAndDropComponent
+    CardComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule, 
     GridsModule,
+    GridsDndModule,
+    DragAndDropModule,
     RouterModule.forRoot(routes)
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

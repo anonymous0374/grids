@@ -1,6 +1,6 @@
 <div class='onex-grids'>
     <div style='background-color: #cccccc' [ngClass]="grid.gridClass" class="onex-grid" *ngFor="let grid of ls.grids; let i = index;">
-        <div *ngIf="grid.hasCard()">
+        <div dnd-draggable [dragEnabled]="true" dnd-droppable (onDropSuccess)="drop($event)" *ngIf="grid.hasCard()">
             <input type='button' value='Delete' class='grid-button' (click)="removeCard(grid)"  [ngClass]='{"button-normal": ls.getCard(grid).type === 0, "button-median": ls.getCard(grid).type === 1, "button-large": ls.getCard(grid).type === 2}'/>
             <input type='button' value='Enlarge' class='grid-button'(click)="enlargeCard(grid)" [ngClass]='{"button-normal": ls.getCard(grid).type === 0, "button-median": ls.getCard(grid).type === 1, "button-large": ls.getCard(grid).type === 2}'/>
             <input type='button' value='Reduce' class='grid-button' (click)="reduceCard(grid)" [ngClass]='{"button-normal": ls.getCard(grid).type === 0, "button-median": ls.getCard(grid).type === 1, "button-large": ls.getCard(grid).type === 2}'/>

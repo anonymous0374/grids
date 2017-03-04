@@ -7,10 +7,9 @@ import { DndModule } from 'ng2-dnd';
 @NgModule({
   imports: [
     CommonModule,
-    DragAndDropModule,
     DndModule.forRoot()
   ],
-  declarations: [],
-  exports: [ DragAndDropComponent ]
+  declarations: [ DragAndDropComponent ],
+  exports: [ DragAndDropComponent ]  
 })
 export class DragAndDropModule { }
