@@ -101,4 +101,8 @@ export class GridsComponent implements OnInit {
         }
     }
 
+    drop(event) {
+        console.log(event);
+    }
+
 }

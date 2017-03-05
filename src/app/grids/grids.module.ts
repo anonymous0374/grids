@@ -5,10 +5,13 @@ import { CardComponent } from '../card/card.component';
 import { LayoutService } from '../service/layout.service';
 import { GridsConfigurationService } from '../service/grids.configuration.service';
 
+import { DndModule } from 'ng2-dnd';
+
 
 @NgModule({
   imports: [ 
-    CommonModule    
+    CommonModule,
+    DndModule.forRoot()
   ],
   exports: [ GridsComponent ],
   declarations: [ GridsComponent, CardComponent ],
