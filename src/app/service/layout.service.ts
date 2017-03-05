@@ -3,207 +3,156 @@ import { Grid } from '../grids/grid';
 import { Card } from '../card/card';
 
 @Injectable()
-export class LayoutService {
-    public grids: Grid[];
-    public cards: Card[];
-    public currentGrid: Grid;
-    public needSpace: number[];
+export class LayoutService {           
 
     constructor() {
-        this.grids = [
-            new Grid('grid0', false),
-            new Grid('grid1', false),
-            new Grid('grid2', false),
-            new Grid('grid3', false),
-            new Grid('grid4', false),
-            new Grid('grid5', false),
-            new Grid('grid6', false),
-            new Grid('grid7', false),
-            new Grid('grid8', false),
-            new Grid('grid9', false),
-            new Grid('grid10', false),
-            new Grid('grid11', false),
-            new Grid('grid12', false),
-            new Grid('grid13', false),
-            new Grid('grid14', false),
-            new Grid('grid15', false),
-            new Grid('grid16', false),
-            new Grid('grid17', false),
-            new Grid('grid18', false),
-            new Grid('grid19', false),
-            new Grid('grid20', false),
-            new Grid('grid21', false),
-            new Grid('grid22', false),
-            new Grid('grid23', false)
-        ];
-
-        this.cards = [];
+        
     }
 
-    public getNormalGrid(card: Card, currentGrid: Grid, doOccupy ? : boolean): Grid[] {
-        let i = currentGrid.gridIndex + 1, len = this.grids.length;
-        
+    /*
+    * @param card - Card, the card to place on the grids
+    * @param grids - Grid[], the grids to hold the cards
+    * @param reserveGrid - boolean, wheather to mark the grids as reserved if 
+    *   the grids are able and available hold the card.
+    * @param startPoint - number, check available grids starting from the grid
+    *   with this index.
+    * @return grids - Grid [], available grids to hold such card.   
+    */
+    public allocateGridsForNormalCard(card: Card, grids: Grid[], 
+        reserveGrid?: boolean, startPoint?: number): Grid[] {
+        let i = 0, len = grids.length;
+        startPoint ? i = startPoint : 0;
+
         for (i; i < len; i++) {
-            if (!this.grids[i].occupied) {
-                if (doOccupy) {
-                    this.grids[i].occupied = true;
-                    card.className = this.grids[i].gridClass;                    
-                }
-                this.grids[i].cardIndex = card.index;
+            if (!grids[i].reserved) {
+                if (reserveGrid) {
+                    // update states of both grids and cards
+                    grids[i].reserved = true; 
+                    grids[i].cardIndex = card.index;
 
-                return [this.grids[i]];
+                    card.cssClass = grids[i].cssClass;
+                }                
+
+                return [grids[i]];
             }
         }
 
+        console.log('sorry, there is no enough grids for normal.');
         return [];
     }
 
-    public getNormalGridCompact(card: Card, doOccupy ? : boolean): Grid[] {
-        let i = 0, len = this.grids.length;
+    public allocateGridsForMedianCard(card: Card, grids: Grid[], 
+        reserveGrid?: boolean, startPoint?: number): Grid[] {
+        let i = 0, len = grids.length;
+        startPoint ? i = startPoint : 0;
+
+        for (i; i < len - 1; i++) {
+            if ((6 - i % 6) > 1) {
+                if (!(grids[i].reserved || grids[i + 1].reserved)) {                    
+                    if (reserveGrid) {
+                        grids[i].reserved = true;
+                        grids[i].cardIndex = card.index;
+                        grids[i + 1].reserved = true;
+                        grids[i + 1].cardIndex = card.index;
+                                                
+                        card.cssClass = grids[i].cssClass;
+                    }                    
+
+                    return [grids[i], grids[i + 1]];
+                }
+            }
+        }
+
+        console.log('sorry, there is no enough grids for median.');
+        return [];
+    }
+
+    public allocateGridsForLargeCard(card: Card, grids: Grid[], 
+        reserveGrid?: boolean, startPoint?: number): Grid[] {
+        let i = 0, len = grids.length;        
+        let roof: Grid[];
+        let foot: Grid[];        
+
+        startPoint ? i = startPoint : 0;
+
+        for (i = 0; i < len; i++) {
+            if ((6 - i % 6 > 1)) {
+                // don't reserve yet
+                roof = this.allocateGridsForMedianCard(card, grids, false);
+                if (roof.length === 2 && roof[1].gridIndex + 6 < grids.length - 1) {
+                    // don't reserve yet
+                    foot = this.allocateGridsForMedianCard(card, grids, false, (roof[0].gridIndex + 6));
+                    if (foot.length !== 2) {
+                        console.log('sorry, there is no enough grids for large.');
+                        return [];
+                    }
+
+                    if (roof[0].gridIndex + 6 === foot[0].gridIndex &&
+                        roof[1].gridIndex + 6 === foot[1].gridIndex) {
+                        if (reserveGrid) {
+                            roof[0].reserved = true;
+                            roof[1].reserved = true;
+                            foot[0].reserved = true;
+                            foot[1].reserved = true;
+                            roof[0].cardIndex = card.index;
+                            roof[1].cardIndex = card.index;
+                            foot[0].cardIndex = card.index;
+                            foot[1].cardIndex = card.index;
+
+                            card.cssClass = roof[0].cssClass;
+                        }
+                    
+                        return [roof[0], roof[1], foot[0], foot[1]];
+                    }
+
+                } else {
+                    console.log('sorry, there is no enough grids for large.');
+                    return [];
+                }                              
+            }
+        }
+
+        console.log('sorry, there is no enough grids for large.');
+        return [];    
+    }
+
+    
+    public allocateGridsForCard(card: Card, grids: Grid[]): Grid[] {
+        let i = 0, len = grids.length;
+        let rtn: Grid[] = [];
+
+        switch (card.type) {
+            case 0: {
+                rtn = this.allocateGridsForNormalCard(card, grids, true);
+                break;
+            }
+            case 1: {                
+                rtn = this.allocateGridsForMedianCard(card, grids, true);
+                break;
+            }
+            case 2: {
+                rtn = this.allocateGridsForLargeCard(card, grids, true);
+                break;
+            }
+        }
         
-        for (i = 0; i < len; i++) {
-            if (!this.grids[i].occupied) {
-                if (doOccupy) {
-                    this.grids[i].occupied = true;
-                    card.className = this.grids[i].gridClass;                    
-                }
-                this.grids[i].cardIndex = card.index;
+        return rtn;
+    }    
 
-                return [this.grids[i]];             
-            }
-        }
+    public reloadCards(cards: Card[], grids: Grid[]): void {
+        (function unOccupyGrids(grids: Grid []): void {
+            grids.forEach(grid => {
+                grid.reserved = false;
+                grid.cardIndex = -1;            
+            });
+        })(grids);
 
-        return [];
-    }
+        cards.forEach(card => this.allocateGridsForCard(card, grids));
+    }        
 
-    public getMedianGrid(card: Card, currentGrid: Grid, doOccupy ? : boolean): Grid[] {        
-        let i = currentGrid.gridIndex + 1, len = this.grids.length;
-
-        for (i; i < len - 1; i++) {
-            if ((6 - i % 6) > 1) {
-                if (!(this.grids[i].occupied || this.grids[i+1].occupied)) {
-                    card.className = this.grids[i].gridClass;
-                    if (doOccupy) {
-                            this.grids[i].occupied = true;
-                            this.grids[i + 1].occupied = true;
-                    }
-                    this.grids[i].cardIndex = card.index;
-                    this.grids[i + 1].cardIndex = card.index;
-
-                    return [this.grids[i], this.grids[i + 1]];
-                }
-            }
-        }
-
-
-        return [];
-    }
-
-    public getMedianGridCompact(card: Card, doOccupy ? : boolean): Grid[] {
-        let i = 0, len = this.grids.length;
-
-        for (i; i < len - 1; i++) {
-            if ((6 - i % 6) > 1) {
-                if (!(this.grids[i].occupied || this.grids[i + 1].occupied)) {
-                    card.className = this.grids[i].gridClass;
-                    if (doOccupy) {
-                            this.grids[i].occupied = true;
-                            this.grids[i + 1].occupied = true;
-                    }
-                    this.grids[i].cardIndex = card.index;
-                    this.grids[i + 1].cardIndex = card.index;
-
-                    return [this.grids[i], this.grids[i + 1]];
-                }
-            }
-        }
-
-
-        return [];
-    }
-
-    public getLargeGrid(card: Card, currentGrid: Grid, doOccupy ? : boolean): Grid[] {
-        let roof: Grid[];
-        let foot: Grid[];       
-        let i = currentGrid.gridIndex, len = this.grids.length;
-
-        for (i = 0; i < len; i++) {
-            if ((6 - i % 6 > 1)) {
-                roof = this.getMedianGridCompact(card, true);
-                foot = this.getMedianGrid(card, this.grids[roof[0].gridIndex + 6 - 1], true);
-                if (roof[0].gridIndex + 6 === foot[0].gridIndex &&
-                    roof[1].gridIndex + 6 === foot[1].gridIndex) {
-                    if (doOccupy) {
-                        roof[0].occupied = true;
-                        roof[1].occupied = true;
-                        foot[0].occupied = true;
-                        foot[1].occupied = true;
-                    }
-
-                    card.className = roof[0].gridClass;
-                    roof[0].cardIndex = card.index;
-                    roof[1].cardIndex = card.index;
-                    foot[0].cardIndex = card.index;
-                    foot[1].cardIndex = card.index;
-
-                    return [roof[0], roof[1], foot[0], foot[1]];
-                }
-            }
-        }
-
-        return [];
-    }
-
-    public getLargeGridCompact(card: Card, doOccupy ? : boolean): Grid[] {
-        let roof: Grid[];
-        let foot: Grid[];       
-        let i = 0, len = this.grids.length;
-
-        for (i = 0; i < len; i++) {
-            if ((6 - i % 6 > 1)) {
-                roof = this.getMedianGridCompact(card, true);
-                foot = this.getMedianGrid(card, this.grids[roof[0].gridIndex + 6 - 1], true);
-                if (roof[0].gridIndex + 6 === foot[0].gridIndex &&
-                    roof[1].gridIndex + 6 === foot[1].gridIndex) {
-                    if (doOccupy) {
-                        roof[0].occupied = true;
-                        roof[1].occupied = true;
-                        foot[0].occupied = true;
-                        foot[1].occupied = true;
-                    }
-
-                    card.className = roof[0].gridClass;
-                    return [roof[0], roof[1], foot[0], foot[1]];
-                }
-            }
-        }
-
-        return [];
-    }
-
-
-    public reloadCards(): void {
-        this.cards.forEach(card => {
-            if (card.type === 0) {
-                this.getNormalGridCompact(card, true);
-            } else if (card.type === 1) {
-                this.getMedianGridCompact(card, true);
-            } else if (card.type === 2) {
-                this.getLargeGridCompact(card, true);
-            }
-        });        
-    }
-
-    public unOccupyGrids(): void {
-        this.grids.forEach(grid => {
-            grid.occupied = false;
-            grid.cardIndex = -1;            
-        });
-    }
-
-    public getCard(grid: Grid): Card {
+    public getCard(grid: Grid, cards: Card[]): Card {
         var rtn = null;
-        this.cards.some(card => {
+        cards.some(card => {
             if (grid.cardIndex === card.index) {
                 rtn = card;
                 return true;
@@ -214,6 +163,6 @@ export class LayoutService {
     }
 
     public hasCard(grid): boolean {
-        return grid.occupied;
+        return grid.reserved;
     }
 }

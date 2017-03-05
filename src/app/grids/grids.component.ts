@@ -3,6 +3,7 @@ import { Input } from '@angular/core';
 import { Card } from '../card/card';
 import { Grid } from './grid';
 import { LayoutService } from '../service/layout.service';
+import { GridsConfigurationService } from '../service/grids.configuration.service';
 
 @Component({
     selector: 'app-grids',
@@ -10,31 +11,37 @@ import { LayoutService } from '../service/layout.service';
     styleUrls: ['./grids.component.css']
 })
 export class GridsComponent implements OnInit {
-    constructor(public ls: LayoutService) { 
+    public grids: Grid[];
+    public cards: Card[];
+
+    constructor(public layoutService: LayoutService,
+        private gridsConfigruationService: GridsConfigurationService) {
+        this.cards = [];
+        this.grids = []; 
       
     }
 
     ngOnInit() {
-  	    
+        this.gridsConfigruationService.getGrids()
+            .subscribe(res => this.grids = res);
     }    
 
     public removeCard(grid: Grid) {        
-        this.ls.cards.forEach((card, i) => {
+        this.cards.forEach((card, i) => {
             if (card.index === grid.cardIndex) {
-                this.ls.cards.splice(i, 1);
+                this.cards.splice(i, 1);
             }
         });
         
-        this.ls.unOccupyGrids();
-        this.ls.reloadCards();
+        this.reloadCards();
 
         console.log('grid: ' + grid.gridIndex + ' removed!');
     }
 
     public getCard(grid: Grid): Card {
-      for (var i = 0; i < this.ls.cards.length; i++) {
-          if (this.ls.cards[i].index && this.ls.cards[i].index === grid.cardIndex) {
-              return this.ls.cards[i];
+      for (var i = 0; i < this.cards.length; i++) {
+          if (this.cards[i].index && this.cards[i].index === grid.cardIndex) {
+              return this.cards[i];
           }
       }
 
@@ -43,62 +50,54 @@ export class GridsComponent implements OnInit {
 
     addNormal() {
         var card = new Card(0);
-        card.index = this.ls.cards.length > 0 ? this.ls.cards.length : 0;
-        this.ls.cards.push(card);
-
-        try {
-            this.ls.unOccupyGrids();
-            this.ls.reloadCards();
-        } catch (e) {
-            console.log(e);
-        }        
+        card.index = this.cards.length > 0 ? this.cards.length : 0;
+        if (this.layoutService.allocateGridsForNormalCard(card, this.grids, false)
+            .length === 1) {
+            this.cards.push(card); 
+            this.reloadCards();
+        }
     }
 
     addMedian() {
         var card = new Card(1);
-        card.index = this.ls.cards.length > 0 ? this.ls.cards.length : 0;
-        this.ls.cards.push(card);
-
-        try {
-            this.ls.unOccupyGrids();
-            this.ls.reloadCards();
-        } catch (e) {
-            console.log(e);
-        }
+        card.index = this.cards.length > 0 ? this.cards.length : 0;
+        if (this.layoutService.allocateGridsForMedianCard(card, this.grids, false)
+            .length === 2) {
+            this.cards.push(card); 
+            this.reloadCards();
+        }        
     }
 
     addLarge() {
         var card = new Card(2);
-        card.index = this.ls.cards.length > 0 ? this.ls.cards.length : 0;
-        this.ls.cards.push(card);
-        
-        try {
-            this.ls.unOccupyGrids();
-            this.ls.reloadCards(); 
-        } catch (e) {
-            console.log(e);
+        card.index = this.cards.length > 0 ? this.cards.length : 0;
+        if (this.layoutService.allocateGridsForLargeCard(card, this.grids, false)
+            .length === 4) {
+            this.cards.push(card); 
+            this.reloadCards();
         }
     }
 
     enlargeCard(grid: Grid) {
-        var card = this.ls.getCard(grid);
+        var card = this.layoutService.getCard(grid, this.cards);
         card.type > 1 ? '' : card.type += 1;
 
-        this.ls.unOccupyGrids();
         this.reloadCards();
     }
 
     reduceCard(grid: Grid) {
-        var card = this.ls.getCard(grid);
+        var card = this.layoutService.getCard(grid, this.cards);
         card.type < 1 ? '' : card.type -= 1;
 
-        this.ls.unOccupyGrids();
         this.reloadCards();
     }
 
     reloadCards() {
-        this.ls.unOccupyGrids();
-        this.ls.reloadCards();
+        try {            
+            this.layoutService.reloadCards(this.cards, this.grids); 
+        } catch (e) {
+            console.log(e);
+        }
     }
 
 }

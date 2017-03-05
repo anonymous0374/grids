@@ -8,14 +8,13 @@ import { AppComponent } from './app.component';
 import { CardComponent } from './card/card.component';
 
 import { GridsModule } from './grids/grids.module';
-import { GridsDndModule } from './grids-dnd/grids-dnd.module';
 import { DragAndDropModule }  from './drag-and-drop/drag-and-drop.module';
 
 import { routes } from './routes/app.routes';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent, 
     CardComponent
   ],
   imports: [
@@ -23,7 +22,6 @@ import { routes } from './routes/app.routes';
     FormsModule,
     HttpModule, 
     GridsModule,
-    GridsDndModule,
     DragAndDropModule,
     RouterModule.forRoot(routes)
   ],

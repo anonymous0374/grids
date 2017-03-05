@@ -8,14 +8,14 @@ import { Grid } from './grids/grid';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    public title = 'grids';
+    public title = 'grids';    
     
-
     constructor() {
+    	
     }
 
     ngOnInit() {
-        
+    	
     }        
 
 }

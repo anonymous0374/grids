@@ -2,13 +2,13 @@ export class Grid {
 	public gridIndex: number;
     public cardIndex: number;	
 
-	constructor (public gridClass: string, public occupied: boolean) {
+	constructor (public cssClass: string, public reserved: boolean) {
         this.getIndexFromClass();     
 	}
 
 	public getIndexFromClass() : number {
-	    let classLen: number = this.gridClass.length;
-        let gridIndex: number = Number(this.gridClass.substring(4, classLen));
+	    let classLen: number = this.cssClass.length;
+        let gridIndex: number = Number(this.cssClass.substring(4, classLen));
         this.gridIndex = gridIndex;
 
         return this.gridIndex;
@@ -21,7 +21,7 @@ export class Grid {
 	}
 
     public hasCard(): boolean {
-        return this.occupied;
+        return this.reserved;
     }
 	
 }

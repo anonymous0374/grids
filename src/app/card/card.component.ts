@@ -10,14 +10,12 @@ import { Grid } from '../grids/grid';
 })
 export class CardComponent implements OnInit {
     @Input()
-    public grid: Card;
+    public card: Card;
 
 
     constructor() { }
 
-    ngOnInit() {
-
-        // this.grids = 
+    ngOnInit() {        
   
     }
 

@@ -1,11 +1,11 @@
 <div class='onex-grids'> 
-    <div style='background-color: #dddddd' [ngClass]="grid.gridClass" class="onex-grid" *ngFor="let grid of ls.grids; let i = index;">
-        <div *ngIf="grid.hasCard()">
-            <input type='button' value='Delete' class='grid-button' (click)="removeCard(grid)"  [ngClass]='{"button-normal": ls.getCard(grid).type === 0, "button-median": ls.getCard(grid).type === 1, "button-large": ls.getCard(grid).type === 2}'/>
-            <input type='button' value='Enlarge' class='grid-button'(click)="enlargeCard(grid)" [ngClass]='{"button-normal": ls.getCard(grid).type === 0, "button-median": ls.getCard(grid).type === 1, "button-large": ls.getCard(grid).type === 2}'/>
-            <input type='button' value='Reduce' class='grid-button' (click)="reduceCard(grid)" [ngClass]='{"button-normal": ls.getCard(grid).type === 0, "button-median": ls.getCard(grid).type === 1, "button-large": ls.getCard(grid).type === 2}'/>
-            <span [id]="ls.getCard(grid).index" class='card-text' draggable='true' *ngIf="grid.hasCard()">
-                card index: {{ls.getCard(grid).index}}
+    <div style='background-color: #dddddd' [ngClass]="grid.cssClass" class="onex-grid" *ngFor="let grid of grids; let i = index;">
+        <div *ngIf="grid.reserved">
+            <input type='button' value='Delete' class='grid-button' (click)="removeCard(grid)"  [ngClass]='{"button-normal": layoutService.getCard(grid, cards).type === 0, "button-median": layoutService.getCard(grid, cards).type === 1, "button-large": layoutService.getCard(grid, cards).type === 2}'/>
+            <input type='button' value='Enlarge' class='grid-button'(click)="enlargeCard(grid)" [ngClass]='{"button-normal": layoutService.getCard(grid, cards).type === 0, "button-median": layoutService.getCard(grid, cards).type === 1, "button-large": layoutService.getCard(grid, cards).type === 2}'/>
+            <input type='button' value='Reduce' class='grid-button' (click)="reduceCard(grid)" [ngClass]='{"button-normal": layoutService.getCard(grid, cards).type === 0, "button-median": layoutService.getCard(grid, cards).type === 1, "button-large": layoutService.getCard(grid, cards).type === 2}'/>
+            <span [id]="layoutService.getCard(grid, cards).index" class='card-text' draggable='true'>
+                card index: {{layoutService.getCard(grid, cards).index}}
             </span>
         </div>
     </div>

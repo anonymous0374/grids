@@ -1,12 +1,10 @@
 import { Routes } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { GridsComponent } from '../grids/grids.component';
-import { GridsDndComponent } from '../grids-dnd/grids-dnd.component';
 import { DragAndDropComponent } from '../drag-and-drop/drag-and-drop.component';
 
 export const routes: Routes = [
     { path: "", redirectTo: "grids", pathMatch: "full" },    
-    { path: "grids", component: GridsComponent },
-    { path: "grids-dnd", component: GridsDndComponent },
+    { path: "grids", component: GridsComponent }, 
     { path: "drag-and-drop", component: DragAndDropComponent }
 ];
