@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GridsComponent } from './grids.component';
+import { CardComponent } from '../card/card.component';
 import { LayoutService } from '../service/layout.service';
 import { GridsConfigurationService } from '../service/grids.configuration.service';
 
@@ -10,7 +11,7 @@ import { GridsConfigurationService } from '../service/grids.configuration.servic
     CommonModule    
   ],
   exports: [ GridsComponent ],
-  declarations: [ GridsComponent ],
+  declarations: [ GridsComponent, CardComponent ],
   providers: [ LayoutService,
       GridsConfigurationService ]
 })

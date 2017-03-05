@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { CardComponent } from './card/card.component';
 
 import { GridsModule } from './grids/grids.module';
 import { DragAndDropModule }  from './drag-and-drop/drag-and-drop.module';
@@ -14,8 +13,7 @@ import { routes } from './routes/app.routes';
 
 @NgModule({
   declarations: [
-    AppComponent, 
-    CardComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,

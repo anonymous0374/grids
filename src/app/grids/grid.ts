@@ -1,6 +1,7 @@
 export class Grid {	
 	public gridIndex: number;
-    public cardIndex: number;	
+    public cardIndex: number;
+    public isCardStartPoint: boolean; // when a card occupies multiple grids
 
 	constructor (public cssClass: string, public reserved: boolean) {
         this.getIndexFromClass();     

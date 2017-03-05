@@ -1,3 +1,3 @@
-<div [ngClass]='card.className'>
+<div [ngClass]="{'card-normal': card.type === 0, 'card-median': card.type===1, 'card-large': card.type === 2}">
 	
 </div>

@@ -29,8 +29,9 @@ export class LayoutService {
                     // update states of both grids and cards
                     grids[i].reserved = true; 
                     grids[i].cardIndex = card.index;
+                    grids[i].isCardStartPoint = true;
 
-                    card.cssClass = grids[i].cssClass;
+                    card.cssClass = grids[i].cssClass;                    
                 }                
 
                 return [grids[i]];
@@ -54,6 +55,7 @@ export class LayoutService {
                         grids[i].cardIndex = card.index;
                         grids[i + 1].reserved = true;
                         grids[i + 1].cardIndex = card.index;
+                        grids[i].isCardStartPoint = true;
                                                 
                         card.cssClass = grids[i].cssClass;
                     }                    
@@ -75,16 +77,15 @@ export class LayoutService {
 
         startPoint ? i = startPoint : 0;
 
-        for (i = 0; i < len; i++) {
+        for (i; i < len; i++) {
             if ((6 - i % 6 > 1)) {
                 // don't reserve yet
-                roof = this.allocateGridsForMedianCard(card, grids, false);
-                if (roof.length === 2 && roof[1].gridIndex + 6 < grids.length - 1) {
+                roof = this.allocateGridsForMedianCard(card, grids, false, i);
+                if (roof.length === 2) {
                     // don't reserve yet
                     foot = this.allocateGridsForMedianCard(card, grids, false, (roof[0].gridIndex + 6));
                     if (foot.length !== 2) {
-                        console.log('sorry, there is no enough grids for large.');
-                        return [];
+                        continue;
                     }
 
                     if (roof[0].gridIndex + 6 === foot[0].gridIndex &&
@@ -98,6 +99,7 @@ export class LayoutService {
                             roof[1].cardIndex = card.index;
                             foot[0].cardIndex = card.index;
                             foot[1].cardIndex = card.index;
+                            roof[0].isCardStartPoint = true;
 
                             card.cssClass = roof[0].cssClass;
                         }

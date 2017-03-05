@@ -1,0 +1,20 @@
+.card-normal {
+    background-color: blue;
+    width: 100%;
+    height: 150px;
+    position: relative;
+}
+
+.card-median {
+    background-color: green;
+    width: 200%;
+    height: 150px;
+    position: relative;
+}
+
+.card-large {
+    background-color: red;
+    width: 200%;
+    height: 300px;
+    position: relative;
+}

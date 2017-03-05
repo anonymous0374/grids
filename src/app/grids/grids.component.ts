@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
 import { Card } from '../card/card';
 import { Grid } from './grid';
+import { CardComponent } from '../card/card.component';
 import { LayoutService } from '../service/layout.service';
 import { GridsConfigurationService } from '../service/grids.configuration.service';
 
