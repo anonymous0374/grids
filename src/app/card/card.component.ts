@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Input } from '@angular/core';
 import { Card } from './card';
 import { Grid } from '../grids/grid';
@@ -8,7 +8,7 @@ import { Grid } from '../grids/grid';
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css']
 })
-export class CardComponent implements OnInit {
+export class CardComponent implements OnInit, OnDestroy {
     @Input()
     public card: Card;
 
@@ -16,7 +16,15 @@ export class CardComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {        
-  
+        console.log('card component init, card index: ' + this.card.index);
+    }
+
+    ngOnDestroy() {
+    	console.log('card component destoryed');
+    }
+
+    destruct() {
+    	
     }
 
 }

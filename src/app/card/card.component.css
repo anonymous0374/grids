@@ -18,3 +18,7 @@
     height: 300px;
     position: relative;
 }
+
+.card-hide {
+    display: none;
+}

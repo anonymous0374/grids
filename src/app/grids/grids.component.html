@@ -1,16 +1,19 @@
 <div class='onex-grids'>
     <div dnd-droppable (onDropSuccess)="drop($event)" style='background-color: #dddddd' [ngClass]="grid.cssClass" class="onex-grid" *ngFor="let grid of grids; let i = index;">
-        <div *ngIf="grid.reserved && grid.isCardStartPoint" dnd-draggable [dragEnabled]="true" [dragData]="grid" [id]="grid.cardIndex">
-            <app-card [card]="layoutService.getCard(grid, cards)"></app-card>
-            <!--
+        <div *ngIf="grid.reserved" dnd-draggable [dragEnabled]="true" [dragData]="grid" [id]="grid.cardIndex">                        
             <input type='button' value='Delete' class='grid-button' (click)="removeCard(grid)"  [ngClass]='{"button-normal": layoutService.getCard(grid, cards).type === 0, "button-median": layoutService.getCard(grid, cards).type === 1, "button-large": layoutService.getCard(grid, cards).type === 2}'/>
             <input type='button' value='Enlarge' class='grid-button'(click)="enlargeCard(grid)" [ngClass]='{"button-normal": layoutService.getCard(grid, cards).type === 0, "button-median": layoutService.getCard(grid, cards).type === 1, "button-large": layoutService.getCard(grid, cards).type === 2}'/>
             <input type='button' value='Reduce' class='grid-button' (click)="reduceCard(grid)" [ngClass]='{"button-normal": layoutService.getCard(grid, cards).type === 0, "button-median": layoutService.getCard(grid, cards).type === 1, "button-large": layoutService.getCard(grid, cards).type === 2}'/>
             <span [id]="layoutService.getCard(grid, cards).index" class='card-text' draggable='true'>
                 card index: {{layoutService.getCard(grid, cards).index}}
             </span>
-            -->
+            
         </div>
+        <!--
+        <div *ngIf="grid.reserved && grid.isCardStartPoint" dnd-draggable [dragEnabled]="true" [dragData]="grid" [id]="grid.cardIndex">
+            <app-card [card]="layoutService.getCard(grid, cards)"></app-card>                                
+        </div>
+        -->
     </div>
 </div>
 
@@ -18,5 +21,5 @@
     <div style='position: relative; left: 50%; transform: translateX(-50%); margin-bottom: 10px; width: 250px;'><input type='button' value='Add normal card' (click)="addNormal()" style='width: 200px; height: 40px; border: solid 1px #dddddd' /></div>
     <div style='position: relative; left: 50%; transform: translateX(-50%); margin-bottom: 10px; width: 250px; '><input type='button' value='Add midian card' (click)="addMedian()" style='width: 200px; height: 40px; border: solid 1px #dddddd' /></div>
     <div style='position: relative; left: 50%; transform: translateX(-50%); margin-bottom: 10px; width: 250px;'><input type='button' value='Add large card' (click)="addLarge()" style='width: 200px; height: 40px; border: solid 1px #dddddd' /></div>
-    <div style='position: relative; left: 50%; transform: translateX(-50%); margin-bottom: 10px; width: 250px;'><input type='button' value='Reload' (click)="(reloadCards())" style='width: 200px; height: 40px; border: solid 1px #dddddd' /></div>    
+    <div style='position: relative; left: 50%; transform: translateX(-50%); margin-bottom: 10px; width: 250px;'><input type='button' value='Reload' (click)="(swap())" style='width: 200px; height: 40px; border: solid 1px #dddddd' /></div>    
 </div>  

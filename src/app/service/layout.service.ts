@@ -18,7 +18,7 @@ export class LayoutService {
     *   with this index.
     * @return grids - Grid [], available grids to hold such card.   
     */
-    public allocateGridsForNormalCard(card: Card, grids: Grid[], 
+    allocateGridsForNormalCard(card: Card, grids: Grid[], 
         reserveGrid?: boolean, startPoint?: number): Grid[] {
         let i = 0, len = grids.length;
         startPoint ? i = startPoint : 0;
@@ -42,7 +42,7 @@ export class LayoutService {
         return [];
     }
 
-    public allocateGridsForMedianCard(card: Card, grids: Grid[], 
+    allocateGridsForMedianCard(card: Card, grids: Grid[], 
         reserveGrid?: boolean, startPoint?: number): Grid[] {
         let i = 0, len = grids.length;
         startPoint ? i = startPoint : 0;
@@ -69,7 +69,7 @@ export class LayoutService {
         return [];
     }
 
-    public allocateGridsForLargeCard(card: Card, grids: Grid[], 
+    allocateGridsForLargeCard(card: Card, grids: Grid[], 
         reserveGrid?: boolean, startPoint?: number): Grid[] {
         let i = 0, len = grids.length;        
         let roof: Grid[];
@@ -119,7 +119,7 @@ export class LayoutService {
     }
 
     
-    public allocateGridsForCard(card: Card, grids: Grid[]): Grid[] {
+    allocateGridsForCard(card: Card, grids: Grid[]): Grid[] {
         let i = 0, len = grids.length;
         let rtn: Grid[] = [];
 
@@ -141,7 +141,7 @@ export class LayoutService {
         return rtn;
     }    
 
-    public reloadCards(cards: Card[], grids: Grid[]): void {
+    reloadCards(cards: Card[], grids: Grid[]): void {
         (function unOccupyGrids(grids: Grid []): void {
             grids.forEach(grid => {
                 grid.reserved = false;
@@ -152,7 +152,7 @@ export class LayoutService {
         cards.forEach(card => this.allocateGridsForCard(card, grids));
     }        
 
-    public getCard(grid: Grid, cards: Card[]): Card {
+    getCard(grid: Grid, cards: Card[]): Card {
         var rtn = null;
         cards.some(card => {
             if (grid.cardIndex === card.index) {
