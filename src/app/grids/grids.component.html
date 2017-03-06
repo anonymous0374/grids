@@ -1,19 +1,8 @@
 <div class='onex-grids'>
     <div dnd-droppable (onDropSuccess)="drop($event)" style='background-color: #dddddd' [ngClass]="grid.cssClass" class="onex-grid" *ngFor="let grid of grids; let i = index;">
-        <div *ngIf="grid.reserved" dnd-draggable [dragEnabled]="true" [dragData]="grid" [id]="grid.cardIndex">                        
-            <input type='button' value='Delete' class='grid-button' (click)="removeCard(grid)"  [ngClass]='{"button-normal": layoutService.getCard(grid, cards).type === 0, "button-median": layoutService.getCard(grid, cards).type === 1, "button-large": layoutService.getCard(grid, cards).type === 2}'/>
-            <input type='button' value='Enlarge' class='grid-button'(click)="enlargeCard(grid)" [ngClass]='{"button-normal": layoutService.getCard(grid, cards).type === 0, "button-median": layoutService.getCard(grid, cards).type === 1, "button-large": layoutService.getCard(grid, cards).type === 2}'/>
-            <input type='button' value='Reduce' class='grid-button' (click)="reduceCard(grid)" [ngClass]='{"button-normal": layoutService.getCard(grid, cards).type === 0, "button-median": layoutService.getCard(grid, cards).type === 1, "button-large": layoutService.getCard(grid, cards).type === 2}'/>
-            <span [id]="layoutService.getCard(grid, cards).index" class='card-text' draggable='true'>
-                card index: {{layoutService.getCard(grid, cards).index}}
-            </span>
-            
-        </div>
-        <!--
-        <div *ngIf="grid.reserved && grid.isCardStartPoint" dnd-draggable [dragEnabled]="true" [dragData]="grid" [id]="grid.cardIndex">
+        <div *ngIf="grid.reserved && grid.isCardStartPoint" dnd-draggable [dragEnabled]="grid.isCardStartPoint" [dragData]="grid" [id]="grid.cardIndex">
             <app-card [card]="layoutService.getCard(grid, cards)"></app-card>                                
         </div>
-        -->
     </div>
 </div>
 

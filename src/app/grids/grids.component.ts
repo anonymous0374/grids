@@ -115,8 +115,7 @@ export class GridsComponent implements OnInit {
             this.cards.splice(1, 1, tmp);
             stringCards = JSON.stringify(this.cards);
             this.cards = JSON.parse(stringCards);
-        }
-        this.printGridState();
+        }        
         this.reloadCards();
         this.printGridState();
 

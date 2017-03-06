@@ -145,7 +145,8 @@ export class LayoutService {
         (function unOccupyGrids(grids: Grid []): void {
             grids.forEach(grid => {
                 grid.reserved = false;
-                grid.cardIndex = -1;            
+                grid.isCardStartPoint = false;
+                grid.cardIndex = -1;
             });
         })(grids);
 
@@ -153,6 +154,7 @@ export class LayoutService {
     }        
 
     getCard(grid: Grid, cards: Card[]): Card {
+        console.log('try getting a card.');
         var rtn = null;
         cards.some(card => {
             if (grid.cardIndex === card.index) {
