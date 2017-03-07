@@ -102,15 +102,23 @@ export class GridsComponent implements OnInit {
         }
     }
 
-    drop(event) {
-        console.log(event);
+    drop(event) {        
         var draggedGrid = event.dragData;
         var draggedCardIndex = this.layoutService.getCard(draggedGrid, this.cards).index;
         var target = event.mouseEvent.target;        
         var targetCardIndex = -1;
         if (target.id && target.id.slice(0, 6) === 'cardid') {
             targetCardIndex = Number(target.id.slice(6, target.id.length));
-            this.swap(draggedCardIndex, targetCardIndex);
+            // this.swap(draggedCardIndex, targetCardIndex);
+            // decide it's drop before / after or combine
+            var targetWidth = target.clientWidth;
+            var dropPoint = event.mouseEvent.offsetX;
+            var pos = dropPoint / targetWidth;
+            if (pos < 0.333) {
+                this.insertBefore(draggedCardIndex, targetCardIndex);
+            } else if (pos > 0.666) {
+                this.insertAfter(draggedCardIndex, targetCardIndex);
+            }
             this.reloadCards();
         } else {
             console.log('not droppable, should drop to a card.');
@@ -136,6 +144,60 @@ export class GridsComponent implements OnInit {
         tmpCard = this.cards[pos1];
         this.cards[pos1] = this.cards[pos2];
         this.cards[pos2] = tmpCard;        
+    }
+
+    insertAfter(draggedCardIndex, targetCardIndex) {
+        var draggedCard = null; 
+        var targetCard = null; 
+        var draggedCardPos = null, targetCardPos = null;
+
+        this.cards.forEach((card, i) => {
+            if (card.index === draggedCardIndex) {
+                draggedCardPos = i;
+            }
+            if (card.index === targetCardIndex) {
+                targetCardPos = i
+            }
+            if (draggedCardPos && targetCardPos) {
+                return true;
+            }
+        });
+        
+        draggedCard = this.cards[draggedCardPos];
+        targetCard = this.cards[targetCardPos];
+        this.cards.splice(targetCardPos + 1, 0, draggedCard);
+        this.cards[draggedCardPos].index === draggedCard.index ?
+            this.cards.splice(draggedCardPos, 1) : 
+            this.cards.splice(draggedCardPos + 1, 1);
+    }
+
+    insertBefore(draggedCardIndex, targetCardIndex) {
+        var draggedCard = null; 
+        var targetCard = null; 
+        var draggedCardPos = null, targetCardPos = null;
+
+        this.cards.forEach((card, i) => {
+            if (card.index === draggedCardIndex) {
+                draggedCardPos = i;
+            }
+            if (card.index === targetCardIndex) {
+                targetCardPos = i
+            }
+            if (draggedCardPos && targetCardPos) {
+                return true;
+            }
+        });
+        
+        draggedCard = this.cards[draggedCardPos];
+        targetCard = this.cards[targetCardPos];
+        this.cards.splice(targetCardPos, 0, draggedCard);
+        this.cards[draggedCardPos].index === draggedCard.index ?
+            this.cards.splice(draggedCardPos, 1) : 
+            this.cards.splice(draggedCardPos + 1, 1);
+    }
+
+    combine(draggedCardIndex, targetCardIndex) {
+
     }
 
     printGridState() : void {
