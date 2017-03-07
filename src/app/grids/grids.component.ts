@@ -104,22 +104,38 @@ export class GridsComponent implements OnInit {
 
     drop(event) {
         console.log(event);
+        var draggedGrid = event.dragData;
+        var draggedCardIndex = this.layoutService.getCard(draggedGrid, this.cards).index;
+        var target = event.mouseEvent.target;        
+        var targetCardIndex = -1;
+        if (target.id && target.id.slice(0, 6) === 'cardid') {
+            targetCardIndex = Number(target.id.slice(6, target.id.length));
+            this.swap(draggedCardIndex, targetCardIndex);
+            this.reloadCards();
+        } else {
+            console.log('not droppable, should drop to a card.');
+            return;
+        }               
+
     }
 
-    swap() {
-        var stringCards = '';
-        // testing code
-        if (this.cards.length > 1) {
-            var tmp = this.cards[0];
-            this.cards.splice(0, 1, this.cards[1]);
-            this.cards.splice(1, 1, tmp);
-            stringCards = JSON.stringify(this.cards);
-            this.cards = JSON.parse(stringCards);
-        }        
-        this.reloadCards();
-        this.printGridState();
-
-        // end of testing code      
+    swap(cardIndex1: number, cardIndex2: number) {
+        var pos1 = null, pos2 = null, tmpCard = null;
+        this.cards.forEach((card, i) => {
+            if (card.index === cardIndex1) {
+                pos1 = i;
+            }
+            if (card.index === cardIndex2) {
+                pos2 = i;
+            }
+            if (pos1 && pos2) {
+                return true;
+            }
+        });
+        
+        tmpCard = this.cards[pos1];
+        this.cards[pos1] = this.cards[pos2];
+        this.cards[pos2] = tmpCard;        
     }
 
     printGridState() : void {

@@ -154,7 +154,7 @@ export class LayoutService {
     }        
 
     getCard(grid: Grid, cards: Card[]): Card {
-        console.log('try getting a card.');
+        // console.log('try getting a card.');
         var rtn = null;
         cards.some(card => {
             if (grid.cardIndex === card.index) {
